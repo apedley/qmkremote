@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 from qmkremote import QMKRemote
 
@@ -14,12 +14,17 @@ def index():
 @app.route("/matrix/on")
 def matrix_on():
     remote.matrix_on()
-    return "matrixon"
+    return { "status": remote.matrix_status}
 
 @app.route("/matrix/off")
 def matrix_off():
     remote.matrix_off()
-    return "matrixoff"
+    return { "status": remote.matrix_status}
+
+@app.route("/matrix/toggle")
+def matrix_toggle():
+    remote.matrix_toggle()
+    return { "status": remote.matrix_status}
 
 @app.route("/matrix/indicator/reset")
 def matrix_indicator_reset():
@@ -45,6 +50,10 @@ def matrix_indicator_range(start, end):
     remote.matrix_indicator_range(int(r), int(g), int(b), start, end)
     return "matrixindicatorrange"
 
+@app.route("/testui")
+def testui():
+    return render_template('testui.html', matrix_status=remote.matrix_status, layer=remote.layer)
+    
 if __name__ == '__main__':
 
 	app.run(debug=True)

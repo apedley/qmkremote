@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> 
+    <script src="{{ url_for('static', filename= 'js/jscolor.js') }}"></script>
+    <script>
+    $(document).ready(function(){
+        $("#btn").click(function(){
+            $.ajax({
+                url: "/matrix/off",
+                type: "GET",
+                success: function(result){
+                    $("#matrix").html('' + result.status);
+                }
+            });
+        });
+        $("#btn2").click(function(){
+            $.ajax({
+                url: "/matrix/on",
+                type: "GET",
+                success: function(result){
+                    $("#matrix").html('' + result.status);
+                }
+            });
+        });
+        $("#btntoggle").click(function(){
+            $.ajax({
+                url: "/matrix/toggle",
+                type: "GET",
+                success: function(result){
+                    $("#matrix").html('' + result.status);
+                }
+            });
+        });        
+        $("#btn3").click(function(){
+            var input = $("#color1")[0].value;
+            var hex = input.slice(1);
+            var r = parseInt(hex.slice(0,2), 16);
+            var g = parseInt(hex.slice(2,4), 16);
+            var b = parseInt(hex.slice(4,6), 16);
+            var url = "/matrix/indicator/all?r=" + r + "&g=" + g + "&b=" + b;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(result){
+                    console.log(result);
+                }
+            });
+        });
+        $("#btn4").click(function(){
+            $.ajax({
+                url: "/matrix/indicator/reset",
+                type: "GET",
+                success: function(result){
+                    console.log(result);
+                }
+            });
+        });                
+    });
+    </script>
+</head>
+<body>
+<h3>test</h3>
+<h4 id="matrix">{{ matrix_status }}</h4>
+<button id="btn">off</button>
+<div id="div1"></div>
+<button id="btn2">on</button>
+<div id="div2"></div>
+<button id="btntoggle">toggle</button>
+<div id="divtoggle"></div>
+
+<input value="#3399FF" data-jscolor="{}" id="color1"></input>
+<button id="btn3">color</button>
+<button id="btn4">reset</button>
+</body>
+</html>
