@@ -50,6 +50,11 @@ def matrix_indicator_range(start, end):
     remote.matrix_indicator_range(int(r), int(g), int(b), start, end)
     return "matrixindicatorrange"
 
+@app.route("/matrix/mode")
+def matrix_get_mode():
+    mode = remote.matrix_get_mode()
+    return { "mode": mode }
+
 @app.route("/testui")
 def testui():
     return render_template('testui.html', matrix_status=remote.matrix_status, layer=remote.layer)

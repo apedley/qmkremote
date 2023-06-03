@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> 
+    <script src="{{ url_for('static', filename= 'js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename= 'js/jscolor.js') }}"></script>
     <script>
     $(document).ready(function(){
@@ -56,7 +56,16 @@
                     console.log(result);
                 }
             });
-        });                
+        });
+        $("#btn5").click(function(){
+            $.ajax({
+                url: "/matrix/mode",
+                type: "GET",
+                success: function(result){
+                    $("#divmode").html('' + result["mode"]);
+                }
+            });
+        });                        
     });
     </script>
 </head>
@@ -73,5 +82,8 @@
 <input value="#3399FF" data-jscolor="{}" id="color1"></input>
 <button id="btn3">color</button>
 <button id="btn4">reset</button>
+<hr>
+<button id="btn5">get mode</button>
+<div id="divmode"></div>
 </body>
 </html>
