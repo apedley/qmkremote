@@ -42,7 +42,6 @@ class RawHIDInterface:
             if wait_for_response:
                 response_packet = self.interface.read(32, timeout=1000)
 
-                print("Response:")
-                print(response_packet)
+                return response_packet
         finally:
             self.interface.close()

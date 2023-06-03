@@ -2,6 +2,13 @@ import rawhid
 import enum
 
 class QMKRemoteCommand(enum.Enum):
+    OLED_OFF = 1
+    OLED_ON = 2
+    OLED_WRITE = 3
+    OLED_CLEAR = 4
+    RGB_OFF = 5
+    RGB_ON = 6
+    RGB_SETRGB_RANGE = 7
     MATRIX_OFF = 8
     MATRIX_ON = 9
     LAYER_ON = 11
@@ -11,7 +18,7 @@ class QMKRemoteCommand(enum.Enum):
     MATRIX_INDICATOR_RANGE = 128
     MATRIX_INDICATOR_RESET = 129
     MATRIX_INDICATOR_ALL = 130
-
+    MATRIX_GET_MODE = 131
 class QMKRemote:
     layer = None
     matrix_status = True
@@ -52,6 +59,10 @@ class QMKRemote:
     def matrix_indicator_range(self, r, g, b, start, end):
         self.raw_interface.send([QMKRemoteCommand.MATRIX_INDICATOR_RANGE.value, 5, 0, 0, 0, r, g, b, start, end])
     
+    def matrix_get_mode(self):
+        packet = self.raw_interface.send([QMKRemoteCommand.MATRIX_GET_MODE.value], True)
+        return packet[2]
+    
     def layer_on(self, layer):
         self.raw_interface.send([QMKRemoteCommand.LAYER_ON.value, 1, 0, 0, 0, layer]) 
         
@@ -63,3 +74,18 @@ class QMKRemote:
         
     def layer_move(self, layer):
         self.raw_interface.send([QMKRemoteCommand.LAYER_MOVE.value, 1, 0, 0, 0, layer]) 
+        
+    def oled_off(self):
+        self.raw_interface.send([QMKRemoteCommand.OLED_OFF.value])
+        
+    def oled_on(self):
+        self.raw_interface.send([QMKRemoteCommand.OLED_ON.value]) 
+        
+    def rgb_off(self):
+        self.raw_interface.send([QMKRemoteCommand.RGB_OFF.value])
+        
+    def rgb_on(self):
+        self.raw_interface.send([QMKRemoteCommand.RGB_ON.value]) 
+    
+    def rgb_range(self, r, g, b, start, end):
+        self.raw_interface.send([QMKRemoteCommand.RGB_SETRGB_RANGE.value, 5, 0, 0, 0, r, g, b, start, end])
