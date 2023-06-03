@@ -25,6 +25,7 @@ def matrix_off():
 def matrix_toggle():
     remote.matrix_toggle()
     return { "status": remote.matrix_status}
+  
 
 @app.route("/matrix/indicator/reset")
 def matrix_indicator_reset():

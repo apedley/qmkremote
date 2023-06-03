@@ -38,6 +38,7 @@
             var hex = input.slice(1);
             var r = parseInt(hex.slice(0,2), 16);
             var g = parseInt(hex.slice(2,4), 16);
+            
             var b = parseInt(hex.slice(4,6), 16);
             var url = "/matrix/indicator/all?r=" + r + "&g=" + g + "&b=" + b;
             $.ajax({
@@ -86,4 +87,5 @@
 <button id="btn5">get mode</button>
 <div id="divmode"></div>
 </body>
+
 </html>
