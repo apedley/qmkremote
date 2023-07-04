@@ -15,6 +15,9 @@ class QMKRemoteCommand(enum.Enum):
     LAYER_OFF = 12
     LAYER_CLEAR = 13
     LAYER_MOVE = 14
+    SEND_STRING = 15
+    GET_LAYER = 16
+    GET_KEYMAP = 17
     MATRIX_INDICATOR_RANGE = 128
     MATRIX_INDICATOR_RESET = 129
     MATRIX_INDICATOR_ALL = 130
@@ -74,6 +77,14 @@ class QMKRemote:
         
     def layer_move(self, layer):
         self.raw_interface.send([QMKRemoteCommand.LAYER_MOVE.value, 1, 0, 0, 0, layer]) 
+        
+    def get_layer(self):
+        packet = self.raw_interface.send([QMKRemoteCommand.GET_LAYER.value], True)
+        return packet[2]
+      
+    def get_keymap(self):
+        packet = self.raw_interface.send([QMKRemoteCommand.GET_KEYMAP.value], True)
+        return packet[2]
         
     def oled_off(self):
         self.raw_interface.send([QMKRemoteCommand.OLED_OFF.value])
