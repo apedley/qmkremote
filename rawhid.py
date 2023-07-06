@@ -1,4 +1,5 @@
 import sys
+from typing import final
 import hid
 
 def find_interfaces(vendor_id, product_id, usage_page=0xFF60, usage=0x61):
@@ -45,3 +46,17 @@ class RawHIDInterface:
                 return response_packet
         finally:
             self.interface.close()
+            
+    def read(self, timeout=1000):
+      self.interface = hid.Device(path=self.path)
+      if self.interface is None:
+          print("No device found")
+          sys.exit(1)
+      
+      
+      try:
+        response_packet = self.interface.read(32, timeout=timeout)
+      
+        return response_packet
+      finally:
+        self.interface.close()
